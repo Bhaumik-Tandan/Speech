@@ -16,5 +16,34 @@ export const CurrentlyReading = ({
   currentSentenceIdx: number;
   sentences: string[];
 }) => {
-  return <div data-testid="currently-reading"></div>;
+  const currentSentence=sentences[currentSentenceIdx];
+  const renderSentenceWithHighlight=()=>{
+    if(!currentSentence) return null;
+
+    const [start,end]=currentWordRange;
+    const before=currentSentence.slice(0,start);
+    const word=currentSentence.slice(start,end);
+    const after=currentSentence.slice(end);
+    return (
+      <p data-testid="current-sentence">
+        {before}
+        <span
+        data-testid="current-word">
+          {word}
+        </span>
+        {after}
+      </p>
+    )
+  }
+  return <div data-testid="currently-reading">
+    <div>
+      {sentences.map((sentences,idx)=>(
+        <span key={idx}
+        >
+          {sentences}{' '}
+        </span>
+      ))}
+    </div>
+    {renderSentenceWithHighlight()}
+  </div>;
 };
